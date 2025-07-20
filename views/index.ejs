@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DreamyBlog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+<body>
+  
+  <%- include('partials/header') %>
+  
+  <section id="hero" class="hero">
+    <div class="hero-content">
+      <h1>DreamyBlog</h1>
+      <p>A shared space for different voices around the world.</p>
+      <a href="#blog" class="btn">Get Started</a>
+    </div>
+  </section>
+  
+  
+  
+  <section id="blog" class="user-posts">
+    <h2>Your Dreamy Posts</h2>
+    <% if (posts.length === 0) { %>
+      <div class="welcome-container">
+        <p class="no-posts">Welcome to <strong>DreamyBlog</strong>! Start by creating your first post!</p>
+        <button class="blog-btn" id="openModalBtn">Create New Post</button>
+      </div>
+      <% } else { %>
+        <button class="blog-btn" id="openModalBtn">Create New Post</button>
+        <% } %>
+  
+        <div id="postModal" class="modal">
+          <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">&times;</span>
+            <form id="postForm" action="/create" method="POST" class="modal-form">
+              <input type="text" id="postTitle" name="title" placeholder="Post Title" required />
+              <textarea id="postContent" name="content" placeholder="Post Description" rows="5" required></textarea>
+              <button type="submit" id="submitButton" class="blog-btn">Publish Post</button>
+            </form>
+          </div>
+        </div>
+
+        <% if (posts.length > 0) { %>
+          <div class="post-list">
+            <% posts.forEach((post, index) => { 
+              const safeTitle = post.title.replace(/'/g, "\\'");
+              const safeContent = post.content.replace(/'/g, "\\'"); %>
+              <div class="post-card">
+                <h3><%= post.title %></h3>
+                <p><%= post.content %></p>
+                <div class="button-actions"> 
+                  <button class="edit-btn"onclick="openEditModal (<%= index %>, '<%= safeTitle %>', '<%= safeContent %>')">Edit</button>
+                  <form action="/delete/<%= index %>" method="POST"><button type="submit" class="delete-btn">Delete</button></form>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+  </section>
+  
+  
+  <section class="highlights">
+    <h2>This Week’s Highlights</h2>
+      <div class="post-grid">
+        <div class="post-card">
+          <h3>Chasing Aurora Borealis</h3>
+          <p>Where twilight dances, skies glow and silence feels like a stardust.</p>
+          <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="post-card">
+          <h3>Streets of Paris</h3>
+          <p>Echoes of art, rainy euphoria, and serendipity in golden-lit evenings.</p>
+          <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="post-card">
+          <h3>Flour to Frosting</h3>
+          <p>A sweet ritual in every swirl.</p>
+          <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="post-card">
+          <h3>Wanderlust Diaries</h3>
+          <p>Stories from cities that felt like dreams.</p>
+          <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="post-card">
+          <h3>Shimmering Concerts</h3>
+          <p>From open-air magic to midnight encores.</p>
+          <button class="read-more-btn">Read More</button>
+        </div>
+        <div class="post-card">
+          <h3>Journals from the Journey</h3>
+          <p>Capturing moments before they became memories.</p>
+          <button class="read-more-btn">Read More</button>
+        </div>
+      </div>
+    </section>
+    
+
+  <section class="categories">
+    <h2>Explore by Category</h2>
+      <div class="category-grid">
+        <div class="category-card">
+          <h3>Creative Writing</h3>
+          <p>The art of storytelling shaped by words.</p>
+        </div>
+        <div class="category-card">
+          <h3>Personal Stories</h3>
+          <p>Honest reflections from the heart.</p>
+        </div>
+        <div class="category-card">
+          <h3>Ideas & Notes</h3>
+          <p>Fragments of thoughts worth writing down.</p>
+        </div>
+        <div class="category-card">
+          <h3>Letters & Journals</h3>
+          <p>Everyday thoughts, captured in your digital diary.</p>
+        </div>
+        <div class="category-card">
+          <h3>Baking & Bliss</h3>
+          <p>Stories and warmth from the home kitchen.</p>
+        </div>
+        <div class="category-card">
+          <h3>Dance & Movement</h3>
+          <p>Rhythmic storytelling in motion.</p>
+        </div>
+        <div class="category-card">
+          <h3>Tech & Creativity</h3>
+          <p>Creative takes on code and design.</p>
+        </div>
+        <div class="category-card">
+          <h3>Travel & Experience</h3>
+          <p>Worldly tales and discoveries.</p>
+        </div>
+      </div>
+  </section>
+  
+  
+  
+  <section id="newsletter" class="newsletter">
+    <div class="newsletter-container">
+      <h2>Join the DreamyBlog Community</h2>
+      <p>Subscribe to our newsletter for dreamy content.</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Enter your email" required />
+        <button type="submit" class="blog-btn">Subscribe</button>
+        </form>
+    </div>
+  </section>
+
+    
+
+  <section id="about" class="about-home">
+    <div class="about-home-container">
+      <h2>About DreamyBlog</h2> 
+      <p>DreamyBlog is more than just a blogging platform. It's a mindful, creative space for journaling, storytelling, and sharing diverse perspectives.</p>
+      <p>We blend thoughtful design with graceful power, creating a space where authenticity thrives. We believe in the beauty of truthfulness, the rhythm of storytelling, and the magic of connection.</p>
+      <p><strong>Digital Diaries, Written in Digital Ink.</strong></p>
+      <a href="#about"><button class="blog-btn">Meet the Creator</button></a>
+    </div>
+  </section>
+    
+    
+    
+  <section id="contact" class="contact-section">
+    <div class="contact-container">
+      <h2>Get in Touch</h2>
+      <p>We’d love to hear from you — whether it’s thoughtful feedback, a creative collaboration, or simply a kind hello. Send us a message anytime.</p>
+      <form action="#contact" class="contact-form">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="blog-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+  
+  <%- include("partials/footer") %>
+   
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navbar = document.getElementById('navbar');
+    hamburger.addEventListener('click', () => {
+      navbar.classList.toggle('show');
+    });
+    
+    const modal = document.getElementById('postModal');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    
+    openModalBtn.addEventListener('click', () => {
+      document.getElementById("postForm").action = "/create";
+      document.getElementById("postTitle").value = "";
+      document.getElementById("postContent").value = "";
+      document.getElementById("submitButton").textContent = "Publish Post";
+      modal.style.display = 'block';
+    });
+    
+    closeModalBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    
+    window.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+    
+    function openEditModal(index, title, content) {
+      document.getElementById("postForm").action = "/edit/" + index;
+      document.getElementById("postTitle").value = title;
+      document.getElementById("postContent").value = content;
+      document.getElementById("submitButton").textContent = "Update Post";
+      modal.style.display = "block";
+    }
+  </script>
+  
+</body>
+</html>
+
+    
+
